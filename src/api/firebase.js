@@ -1,31 +1,36 @@
 // src/api/firebase.js
 
+// Importa la inicialización base de Firebase
 import { initializeApp } from 'firebase/app';
-import { getFirestore }  from 'firebase/firestore';
-
-// ✨ Trae estas dos APIs desde el sub-módulo “react-native”
+// Importa Firestore
+import { getFirestore } from 'firebase/firestore';
+// Importa la capa de Auth para React Native y AsyncStorage para persistencia
 import {
-  initializeAuth,
-  getReactNativePersistence
-} from 'firebase/auth/react-native';
-
+    initializeAuth,
+    getReactNativePersistence
+} from 'firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// ——————————————————————————————————————————————
+// Reemplaza estos valores con los de tu proyecto Firebase:
+// ——————————————————————————————————————————————
 const firebaseConfig = {
-  apiKey: "AIzaSyAXS8kdEaG4IbjMZdQgffdV2S3RMAo8KzE",
-  authDomain: "noticiasesti.firebaseapp.com",
-  projectId: "noticiasesti",
-  storageBucket: "noticiasesti.appspot.com",
-  messagingSenderId: "436501289104",
-  appId: "1:436501289104:web:f20b0047e307537586e015",
-};
+    apiKey: "AIzaSyAXS8kdEaG4IbjMZdQgffdV2S3RMAo8KzE",
+    authDomain: "noticiasesti.firebaseapp.com",
+    projectId: "noticiasesti",
+    storageBucket: "noticiasesti.firebasestorage.app",
+    messagingSenderId: "436501289104",
+    appId: "1:436501289104:web:f20b0047e307537586e015",
+    measurementId: "G-73B2M74W51"
+  };
 
+// Inicializa la app de Firebase
 const app = initializeApp(firebaseConfig);
 
-// 🚨 Aquí creas tu instancia de Auth para RN, especificando AsyncStorage
+// Inicializa Auth **específico para React Native**, usando AsyncStorage
 export const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(AsyncStorage)
 });
 
-// Firestore queda igual
+// Inicializa Firestore
 export const db = getFirestore(app);

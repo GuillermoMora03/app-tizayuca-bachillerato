@@ -1,13 +1,16 @@
 // metro.config.js
-const { getDefaultConfig } = require('expo/metro-config');
+const { getDefaultConfig } = require('@expo/metro-config');
+
 const config = getDefaultConfig(__dirname);
 
-// Permite `.cjs`, necesario para algunos paquetes de Firebase
-config.resolver.sourceExts.push('cjs');
+// 1) Permitir resolver .cjs (y .mjs si lo necesitas)
+config.resolver.sourceExts = [
+  ...(config.resolver.sourceExts || []),
+  'cjs',
+  'mjs'
+];
 
-// <-- AÑADE ESTA LÍNEA
-// Deshabilita la estricta resolución de package.exports para que Firebase Auth
-// se cargue correctamente y registre su componente
+// 2) Desactivar la verificación de "exports" en los package.json
 config.resolver.unstable_enablePackageExports = false;
 
 module.exports = config;
