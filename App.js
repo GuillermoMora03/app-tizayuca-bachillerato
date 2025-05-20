@@ -1,20 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+// 4. Modificar App.js para listeners
+import React, { useEffect, useRef } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { registerForPushNotifications } from './src/services/notifications';
+import * as Notifications from 'expo-notifications';
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({ shouldShowAlert: true, shouldPlaySound: true }),
+});
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  const notifListener = useRef();
+  const responseListener = useRef();
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  useEffect(() => {
+    registerForPushNotifications();
+    notifListener.current = Notifications.addNotificationReceivedListener(n => console.log('Received:', n));
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(r => console.log('Response:', r));
+    return () => {
+      notifListener.current?.remove();
+      responseListener.current?.remove();
+    };
+  }, []);
+
+  return <View style={styles.container} />;
+}
+const styles = StyleSheet.create({ container: { flex:1 } });
