@@ -1,7 +1,7 @@
 // src/context/AuthContext.js
 import React, { createContext, useState, useEffect } from 'react';
 // Importa el handler de auth desde el sub-módulo react-native
-import { onAuthStateChanged } from 'firebase/auth/react-native';
+import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../api/firebase';
 
 export const AuthContext = createContext({ user: null, loading: true });
